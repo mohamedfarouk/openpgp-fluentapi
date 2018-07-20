@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageId>BouncyCastle.OpenPgp.FluentApi</PackageId>
+    <PackageId>OpenPgp.FluentApi</PackageId>
     <Authors>INSight</Authors>
     <Company>INSight</Company>
     <Product>BouncyCastle.OpenPgp.FluentApi</Product>
