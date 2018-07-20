@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>BouncyCastle.OpenPgp.FluentApi</PackageId>
+    <Authors>INSight</Authors>
+    <Company>INSight</Company>
+    <Product>BouncyCastle.OpenPgp.FluentApi</Product>
+    <Description>Friendly API for bouncy castle open pgp library</Description>
+    <PackageLicenseUrl>https://github.com/mohamedfarouk/openpgp-fluentapi/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/mohamedfarouk/openpgp-fluentapi</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
