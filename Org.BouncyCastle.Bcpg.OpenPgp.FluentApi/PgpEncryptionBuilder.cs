@@ -41,7 +41,7 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
             return Encrypt(fileInfo);
         }
 
-        public PgpEncryptionBuilder Encrypt(MemoryStream inputStream)
+        public PgpEncryptionBuilder Encrypt(Stream inputStream)
         {
             if(inputStream == null)
                 throw new ArgumentNullException("inputStream");
