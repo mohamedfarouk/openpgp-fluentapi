@@ -9,10 +9,11 @@
     <Description>Friendly API for bouncy castle open pgp library</Description>
     <PackageLicenseUrl>https://github.com/mohamedfarouk/openpgp-fluentapi/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/mohamedfarouk/openpgp-fluentapi</PackageProjectUrl>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BouncyCastle.OpenPGP" Version="1.8.1.1" />
+    <PackageReference Include="BouncyCastle.NetCore" Version="1.8.2" />
   </ItemGroup>
 
 </Project>
