@@ -206,15 +206,15 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
             List<PgpPrivateKey> PgpPrivateKeys = new List<PgpPrivateKey>();
             foreach (var keyInfo in this.PrivateKeys)
             {
-                PgpSecretKeyRingBundle pgpSec = new PgpSecretKeyRingBundle(PgpUtilities.GetDecoderStream(keyInfo.PrivateKeyStream));
+                PgpKeyRingBundle pgpSec = new PgpKeyRingBundle(PgpUtilities.GetDecoderStream(keyInfo.PrivateKeyStream));
 
-                var keyRings = pgpSec.GetKeyRings();
+                var keyRings = pgpSec.GetSecretKeyRings();
                 foreach(PgpSecretKeyRing keyRing in keyRings)
                 {
                     var pgpSecKeys = keyRing.GetSecretKeys();
                     foreach(PgpSecretKey pgpSecKey in pgpSecKeys)
                     {
-                        var privateKey = pgpSecKey.ExtractPrivateKey(keyInfo.PrivateKeyPassword.ToCharArray());
+                        var privateKey = pgpSecKey.ExtractPrivateKey(keyInfo.PrivateKeyPassword == null ? null : keyInfo.PrivateKeyPassword.ToCharArray());
                         PgpPrivateKeys.Add(privateKey);
                     }
                 }

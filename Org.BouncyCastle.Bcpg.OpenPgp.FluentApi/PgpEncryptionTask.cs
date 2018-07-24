@@ -128,7 +128,7 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
             foreach (var privateKeyInfo in PrivateKeys)
             {
                 PgpSecretKey pgpSecKey = ReadSecretKey(privateKeyInfo.PrivateKeyStream);
-                PgpPrivateKey pgpPrivKey = pgpSecKey.ExtractPrivateKey(privateKeyInfo.PrivateKeyPassword.ToCharArray());
+                PgpPrivateKey pgpPrivKey = pgpSecKey.ExtractPrivateKey(privateKeyInfo.PrivateKeyPassword == null ? null : privateKeyInfo.PrivateKeyPassword.ToCharArray());
 
                 PgpSignatureGenerator signatureGenerator = new PgpSignatureGenerator(pgpSecKey.PublicKey.Algorithm, HashAlgorithmTag.Sha1);
                 signatureGenerator.InitSign(PgpSignature.BinaryDocument, pgpPrivKey);
@@ -217,14 +217,14 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
 
         private static PgpSecretKey ReadSecretKey(Stream input)
         {
-            PgpSecretKeyRingBundle pgpSec = new PgpSecretKeyRingBundle(PgpUtilities.GetDecoderStream(input));
+            PgpKeyRingBundle pgpSec = new PgpKeyRingBundle(PgpUtilities.GetDecoderStream(input));
 
             //
             // we just loop through the collection till we find a key suitable for encryption, in the real
             // world you would probably want to be a bit smarter about this.
             //
 
-            foreach (PgpSecretKeyRing keyRing in pgpSec.GetKeyRings())
+            foreach (PgpSecretKeyRing keyRing in pgpSec.GetSecretKeyRings())
             {
                 foreach (PgpSecretKey key in keyRing.GetSecretKeys())
                 {

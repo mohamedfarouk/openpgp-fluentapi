@@ -96,7 +96,7 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
             var privateKeyInfo = new PrivateKeyInfo
             {
                 PrivateKeyStream = privateKeyStream ?? throw new ArgumentNullException("privateKeyStream"),
-                PrivateKeyPassword = password ?? throw new ArgumentNullException("password")
+                PrivateKeyPassword = password
             };
 
             PrivateKeys.Add(privateKeyInfo);

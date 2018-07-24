@@ -152,9 +152,6 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
 
         public PgpEncryptionBuilder WithSigning(Stream signKeyStream, string password)
         {
-            if (string.IsNullOrEmpty(password))
-                throw new ArgumentNullException("password");
-
             if (signKeyStream == null)
                 throw new ArgumentNullException("signKeyStream");
 
