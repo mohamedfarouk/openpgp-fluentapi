@@ -44,8 +44,18 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
             if (InStream != null)
                 throw new InvalidOperationException("stream to encrypt already specified");
 
+            if (inputFileStream == null)
+                throw new ArgumentNullException("inputFileStream");
+
+            if (!inputFileStream.CanRead)
+                throw new ArgumentException("stream is not readable", "inputFileStream");
+
+            if (inputFileStream.CanSeek)
+                inputFileStream.Seek(0, SeekOrigin.Begin);
+
             InStream = inputFileStream ?? throw new ArgumentNullException("inputFileStream");
 
+            
             return this;
         }
 
@@ -93,6 +103,15 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
 
         public PgpDecryptionBuilder WithPrivateKey(Stream privateKeyStream, string password)
         {
+            if (privateKeyStream == null)
+                throw new ArgumentNullException("privateKeyStream");
+
+            if (!privateKeyStream.CanRead)
+                throw new ArgumentException("stream is not readable", "privateKeyStream");
+
+            if (privateKeyStream.CanSeek)
+                privateKeyStream.Seek(0, SeekOrigin.Begin);
+
             var privateKeyInfo = new PrivateKeyInfo
             {
                 PrivateKeyStream = privateKeyStream ?? throw new ArgumentNullException("privateKeyStream"),
@@ -122,6 +141,15 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
 
         public PgpDecryptionBuilder VerifySignatureUsingKey(Stream signatureKeyStream)
         {
+            if (signatureKeyStream == null)
+                throw new ArgumentNullException("signatureKeyStream");
+
+            if (!signatureKeyStream.CanRead)
+                throw new ArgumentException("stream is not readable", "signatureKeyStream");
+
+            if (signatureKeyStream.CanSeek)
+                signatureKeyStream.Seek(0, SeekOrigin.Begin);
+
             SignatureKeys.Add(signatureKeyStream ?? throw new ArgumentNullException("signatureKeyStream"));
             VerifySignature = true;
 

@@ -46,6 +46,13 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
             if(inputStream == null)
                 throw new ArgumentNullException("inputStream");
 
+            if (!inputStream.CanRead)
+                throw new ArgumentException("stream is not readable", "inputStream");
+
+            if (inputStream.CanSeek)
+                inputStream.Seek(0, SeekOrigin.Begin);
+
+
             var tempFile = Utils.CreateTempFile();
 
             using (FileStream fs = tempFile.OpenWrite())
@@ -110,6 +117,15 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
 
         public PgpEncryptionBuilder WithPublicKey(Stream publicKeyStream)
         {
+            if (publicKeyStream == null)
+                throw new ArgumentNullException("publicKeyStream");
+
+            if (!publicKeyStream.CanRead)
+                throw new ArgumentException("stream is not readable", "publicKeyStream");
+
+            if (publicKeyStream.CanSeek)
+                publicKeyStream.Seek(0, SeekOrigin.Begin);
+
             PublicKeys.Add(publicKeyStream ?? throw new ArgumentNullException("publicKeyStream"));
 
             return this;
@@ -154,6 +170,12 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
         {
             if (signKeyStream == null)
                 throw new ArgumentNullException("signKeyStream");
+
+            if (!signKeyStream.CanRead)
+                throw new ArgumentException("stream is not readable", "signKeyStream");
+
+            if (signKeyStream.CanSeek)
+                signKeyStream.Seek(0, SeekOrigin.Begin);
 
             PrivateKeys.Add(new PrivateKeyInfo
             {
