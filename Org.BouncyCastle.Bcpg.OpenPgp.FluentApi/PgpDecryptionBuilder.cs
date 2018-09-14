@@ -27,11 +27,15 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
             if (string.IsNullOrEmpty(inputFilePath))
                 throw new ArgumentNullException("inputFilePath");
 
-            if (!Uri.IsWellFormedUriString(inputFilePath, UriKind.RelativeOrAbsolute))
-                throw new ArgumentException("inputFilePath", "malformed file path");
-
-            if (!File.Exists(inputFilePath))
-                throw new ArgumentException("inputFilePath", "file does not exists");
+            try
+            {
+                if (!File.Exists(inputFilePath))
+                    throw new ArgumentException("inputFilePath", "file does not exists");
+            }
+            catch(Exception ex)
+            {
+                throw new ArgumentException("inputFilePath", "error while checking file", ex);
+            }
 
             var fileInfo = new FileInfo(inputFilePath);
             var inputFileStream = File.OpenRead(inputFilePath);
@@ -64,11 +68,15 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
             if (string.IsNullOrEmpty(outfilePath))
                 throw new ArgumentNullException("outfilePath");
 
-            if (!Uri.IsWellFormedUriString(outfilePath, UriKind.RelativeOrAbsolute))
-                throw new ArgumentException("outfilePath", "malformed file path");
-
-            if (File.Exists(outfilePath) && !overwrite)
-                throw new ArgumentException("inputFilePath", "out file already exists");
+            try
+            {
+                if (File.Exists(outfilePath) && !overwrite)
+                    throw new ArgumentException("outfilePath", "out file already exists");
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("outfilePath", "error while checking file", ex);
+            }
 
             var stream = File.Open(outfilePath, FileMode.OpenOrCreate);
 
