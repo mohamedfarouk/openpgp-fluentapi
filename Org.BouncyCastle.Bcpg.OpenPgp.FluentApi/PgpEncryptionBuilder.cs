@@ -24,6 +24,7 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
         private bool Armor;
         private bool Compress;
         private bool IntegrityCheck;
+        private SymmetricKeyAlgorithmTag SymmetricKeyAlgorithm = SymmetricKeyAlgorithmTag.Cast5;
         private bool SignOutput;
 
         #region Fluent API
@@ -162,6 +163,12 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
             return this;
         }
 
+        public PgpEncryptionBuilder WithSymmetricKeyAlgorithm(SymmetricKeyAlgorithmTag symmetricKeyAlgorithm)
+        {
+            this.SymmetricKeyAlgorithm = symmetricKeyAlgorithm;
+            return this;
+        }
+
         public PgpEncryptionBuilder WithSigning(string signKeyFilePath, string password)
         {
             if (string.IsNullOrEmpty(signKeyFilePath))
@@ -225,6 +232,7 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
                 Armor = Armor,
                 Compress = Compress,
                 WithIntegrityCheck = IntegrityCheck,
+                SymmetricKeyAlgorithm = SymmetricKeyAlgorithm,
                 WithSigning = SignOutput
             };
         }
