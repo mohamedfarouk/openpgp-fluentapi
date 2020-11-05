@@ -1,10 +1,10 @@
-name: .NET Core
+name: Push Nuget New Release
 
 on:
   push:
-    branches: [ release/1.2 ]
+    branches: [ release/* ]
   pull_request:
-    branches: [ release/1.2 ]
+    branches: [ release/* ]
 
 jobs:
   build:
