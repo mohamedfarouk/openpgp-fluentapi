@@ -80,5 +80,20 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
 
             return tempFile;
         }
+
+        internal static bool IsPathValid(string path, out string error)
+        {
+            error = null;
+            try
+            {
+                var fullPath = Path.GetFullPath(path);
+            }
+            catch(Exception ex)
+            {
+                error = $"{ex.GetType().Name}, {ex.Message}";
+                return false;
+            }
+            return true;
+        }
     }
 }
