@@ -15,7 +15,8 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
 
         internal bool Armor;
         internal bool Compress;
-        internal bool WithIntegrityCheck;
+        internal bool WithIntegrityCheck;        
+        internal SymmetricKeyAlgorithmTag SymmetricKeyAlgorithm;
         internal bool WithSigning;
 
 
@@ -48,7 +49,7 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
                 var InStream = InFile.OpenRead();
                 var OutStream = OutFile.OpenWrite();
 
-                PgpEncryptedDataGenerator encGen = new PgpEncryptedDataGenerator(SymmetricKeyAlgorithmTag.Cast5, WithIntegrityCheck, new SecureRandom());
+                PgpEncryptedDataGenerator encGen = new PgpEncryptedDataGenerator(SymmetricKeyAlgorithm, WithIntegrityCheck, new SecureRandom());
 
                 foreach (var publicKey in PublicKeys)
                 {

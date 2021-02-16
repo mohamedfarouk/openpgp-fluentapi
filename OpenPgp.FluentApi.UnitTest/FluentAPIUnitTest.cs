@@ -76,6 +76,50 @@ namespace OpenPgp.FluentApi.UnitTest
             Assert.Equal(PlainMessage, decryptedText);
         }
 
+
+        [Fact]
+        public void TestEncrypt_Decrypt_AESAlgorithm()
+        {
+            PlainMessageStream.Seek(0, SeekOrigin.Begin);
+            PublicKey1.Seek(0, SeekOrigin.Begin);
+            PrivateKey1.Seek(0, SeekOrigin.Begin);
+            PublicKey2.Seek(0, SeekOrigin.Begin);
+            PrivateKey2.Seek(0, SeekOrigin.Begin);
+
+            var encryptionTask = new PgpEncryptionBuilder()
+                .Encrypt(PlainMessageStream)
+                .WithArmor()
+                .WithCompression()
+                .WithIntegrityCheck()
+                .WithSymmetricKeyAlgorithm(Org.BouncyCastle.Bcpg.SymmetricKeyAlgorithmTag.Aes256)
+                .WithPublicKey(PublicKey1)
+                .Build();
+
+            var encryptedStream = encryptionTask.Run().GetEncryptedStream();
+
+            var encryptedText = new StreamReader(encryptedStream).ReadToEnd();
+
+
+            encryptedStream.Seek(0, SeekOrigin.Begin);
+            PlainMessageStream.Seek(0, SeekOrigin.Begin);
+            PublicKey1.Seek(0, SeekOrigin.Begin);
+            PrivateKey1.Seek(0, SeekOrigin.Begin);
+            PublicKey2.Seek(0, SeekOrigin.Begin);
+            PrivateKey2.Seek(0, SeekOrigin.Begin);
+
+
+            var decryptionTask = new PgpDecryptionBuilder()
+                .Decrypt(encryptedStream)
+                .WithPrivateKey(PrivateKey1, PassPhrase1)
+                .Build();
+
+            var decryptedStream = decryptionTask.Run().GetDecryptedStream();
+
+            var decryptedText = new StreamReader(decryptedStream).ReadToEnd();
+
+            Assert.Equal(PlainMessage, decryptedText);
+        }
+
         [Fact]
         public void TestEncrypt_Decrypt_2KeysAndNoSignatures()
         {

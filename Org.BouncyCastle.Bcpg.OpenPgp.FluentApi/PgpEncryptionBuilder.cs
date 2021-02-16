@@ -24,6 +24,7 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
         private bool Armor;
         private bool Compress;
         private bool IntegrityCheck;
+        private SymmetricKeyAlgorithmTag SymmetricKeyAlgorithm = SymmetricKeyAlgorithmTag.Cast5;
         private bool SignOutput;
 
         #region Fluent API
@@ -84,8 +85,8 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
             if (string.IsNullOrEmpty(outfilePath))
                 throw new ArgumentNullException("outfilePath");
 
-            if (!Uri.IsWellFormedUriString(outfilePath, UriKind.RelativeOrAbsolute))
-                throw new ArgumentException("outfilePath", "malformed file path");
+            if (!Utils.IsPathValid(outfilePath, out string pathError))
+                throw new ArgumentException("outfilePath", pathError);
 
             try
             {
@@ -117,8 +118,8 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
             if (string.IsNullOrEmpty(publicKeyPath))
                 throw new ArgumentNullException("inputFilePath");
 
-            if (!Uri.IsWellFormedUriString(publicKeyPath, UriKind.RelativeOrAbsolute))
-                throw new ArgumentException("inputFilePath", "malformed file path");
+            if (!Utils.IsPathValid(publicKeyPath, out string pathError))
+                throw new ArgumentException("inputFilePath", pathError);
 
             if (!File.Exists(publicKeyPath))
                 throw new ArgumentException("inputFilePath", "file does not exists");
@@ -162,13 +163,19 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
             return this;
         }
 
+        public PgpEncryptionBuilder WithSymmetricKeyAlgorithm(SymmetricKeyAlgorithmTag symmetricKeyAlgorithm)
+        {
+            this.SymmetricKeyAlgorithm = symmetricKeyAlgorithm;
+            return this;
+        }
+
         public PgpEncryptionBuilder WithSigning(string signKeyFilePath, string password)
         {
             if (string.IsNullOrEmpty(signKeyFilePath))
                 throw new ArgumentNullException("signKeyFilePath");
-
-            if (!Uri.IsWellFormedUriString(signKeyFilePath, UriKind.RelativeOrAbsolute))
-                throw new ArgumentException("signKeyFilePath", "malformed file path");
+            
+            if (!Utils.IsPathValid(signKeyFilePath, out string pathError))
+                throw new ArgumentException("signKeyFilePath", pathError);
 
             if (!File.Exists(signKeyFilePath))
                 throw new ArgumentException("signKeyFilePath", "file does not exists");
@@ -225,6 +232,7 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
                 Armor = Armor,
                 Compress = Compress,
                 WithIntegrityCheck = IntegrityCheck,
+                SymmetricKeyAlgorithm = SymmetricKeyAlgorithm,
                 WithSigning = SignOutput
             };
         }

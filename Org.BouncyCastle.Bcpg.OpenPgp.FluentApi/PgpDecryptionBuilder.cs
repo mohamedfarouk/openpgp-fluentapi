@@ -98,8 +98,8 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
             if (string.IsNullOrEmpty(privateKeyPath))
                 throw new ArgumentNullException("privateKeyPath");
 
-            if (!Uri.IsWellFormedUriString(privateKeyPath, UriKind.RelativeOrAbsolute))
-                throw new ArgumentException("privateKeyPath", "malformed file path");
+            if (!Utils.IsPathValid(privateKeyPath, out string pathError))
+                throw new ArgumentException("privateKeyPath", pathError);
 
             if (!File.Exists(privateKeyPath))
                 throw new ArgumentException("privateKeyPath", "file does not exists");
@@ -136,8 +136,8 @@ namespace Org.BouncyCastle.Bcpg.OpenPgp.FluentApi
             if (string.IsNullOrEmpty(signatureKeyPath))
                 throw new ArgumentNullException("signatureKeyPath");
 
-            if (!Uri.IsWellFormedUriString(signatureKeyPath, UriKind.RelativeOrAbsolute))
-                throw new ArgumentException("signatureKeyPath", "malformed file path");
+            if (!Utils.IsPathValid(signatureKeyPath, out string pathError))
+                throw new ArgumentException("signatureKeyPath", pathError);
 
             if (!File.Exists(signatureKeyPath))
                 throw new ArgumentException("signatureKeyPath", "file does not exists");
